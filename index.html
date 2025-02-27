@@ -5,30 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>傻瓜工作室</title>
     <style>
+        :root {
+            /* 預設淺色模式 */
+            --bg-color: white;
+            --text-color: black;
+            --h2-color: #666;
+            --button-hover-border: black;
+            --x-button-bg: #e8e8e8;
+            --frame-bg: #e8e8e8;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                /* 深色模式 */
+                --bg-color: black;
+                --text-color: white;
+                --h2-color: #aaa;
+                --button-hover-border: white;
+                --x-button-bg: #333;
+                --frame-bg: #333;
+            }
+        }
+
         body {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             height: 100vh;
             margin: 0;
             font-family: 'Arial', sans-serif;
             text-align: center;
-            background-color: black; /* 設定背景為黑色 */
-            color: white; /* 設定文字顏色為白色 */
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
+
         .container {
             padding: 20px;
         }
+
         h1 {
             margin: 0;
             font-size: 3em;
         }
+
         h2 {
             margin-top: 10px;
             font-size: 1.5em;
-            color: #666;
+            color: var(--h2-color);
         }
+
         .button-container {
             margin-top: 30px;
             display: flex;
@@ -36,25 +62,127 @@
             gap: 20px;
             flex-wrap: wrap;
         }
+
         .button-container button {
             margin: 10px;
             padding: 2vw 4vw;
             font-size: 1.5vw;
             cursor: pointer;
             border: 2px solid transparent;
-            border-radius: 30px; /* 圓角 */
+            border-radius: 30px;
             transition: border-color 0.3s ease;
+            color: inherit;
+            background-color: #FF0000;
         }
-        .button-container button:hover {
-            border-color: white; /* 滑鼠懸停時邊框變為白色 */
-        }
-        .button-container button:nth-child(1) {
-            background-color: #FF0000; /* YouTube red */
-            color: white;
-        }
+
         .button-container button:nth-child(2) {
-            background-color: #000000; /* X black */
-            color: white;
+            background-color: var(--x-button-bg);
+        }
+
+        .button-container button:hover {
+            border-color: var(--button-hover-border);
+        }
+
+        /* 外框標題 */
+        .frame-title {
+            /* 初始狀態就設定好動畫 */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        /* 成員區塊容器 */
+        .frame-container {
+            display: flex;
+            justify-content: space-around;
+            width: 90%;
+            margin-bottom: 20px;
+            padding: 0 10px;
+            /* 初始狀態就設定好動畫 */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .frame {
+            width: 30%;
+            background-color: var(--frame-bg);
+            border-radius: 25px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+
+        .frame-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .frame-content {
+            flex: 1;
+        }
+
+        .frame-content h2 {
+            margin: 5px;
+            font-size: 1em;
+        }
+
+        .frame-text {
+            font-size: 0.9em;
+            color: var(--text-color);
+        }
+
+        /* 影片容器 */
+        .video-container {
+            margin-top: 20px;
+            /* 初始狀態就設定好動畫 */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .video-container iframe {
+            width: 560px;
+            height: 315px;
+        }
+
+        /* 滾動後出現的樣式 */
+        .show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 版權宣告 */
+        footer {
+            margin-top: auto;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .frame-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .frame {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .button-container button {
+                font-size: 4vw;
+                padding: 4vw 6vw;
+            }
+
+            .video-container iframe {
+                width: 100%;
+                height: auto;
+            }
         }
     </style>
 </head>
@@ -67,5 +195,71 @@
             <button onclick="window.location.href='https://x.com/sarguastudio'">x</button>
         </div>
     </div>
+
+    <!-- 成員區塊 -->
+    <h1 class="frame-title">成員</h1>
+    <div class="frame-container">
+        <div class="frame">
+            <img src="https://raw.githubusercontent.com/guazii1106/sargua/main/guazii1.jpg" alt="圖片 1" class="frame-image">
+            <div class="frame-content">
+                <h2>我是真瓜子guazii</h2>
+                <p class="frame-text">位置岌岌可危的團長，主要負責技術類、剪輯類、網站架設，曾因為官網大當機而抓狂</p>
+            </div>
+        </div>
+        <div class="frame">
+            <img src="https://raw.githubusercontent.com/guazii1106/sargua/main/sarler1.jpg" alt="圖片 2" class="frame-image">
+            <div class="frame-content">
+                <h2>傻樂sarler</h2>
+                <p class="frame-text">愛玩minecraft、貓咪大戰爭，主要負責拍片、娛樂效果，因為時間問題，在團隊不算太活躍</p>
+            </div>
+        </div>
+        <div class="frame">
+            <img src="https://raw.githubusercontent.com/guazii1106/sargua/main/xiaoyou1.jpg" alt="圖片 3" class="frame-image">
+            <div class="frame-content">
+                <h2>魈幽</h2>
+                <p class="frame-text">愛畫畫、唱歌、玩原神的團員，負責錄音、音樂、拍片，擔任繪師職位</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 作品區塊 -->
+    <h1 class="frame-title" id="work-title">作品</h1>
+    <div class="video-container">
+        <iframe width="941" height="539" src="https://www.youtube.com/embed/VgnUZu6i3CU" title="[合作]萬散動畫 #萬葉 #散兵 #萬散cp #原神 #稻妻 #合作" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+
+    <!-- 版權宣告 -->
+    <footer>
+        &copy; sarguastudio <span id="current-year"></span>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        window.addEventListener('scroll', function() {
+            const triggerBottom = window.innerHeight * 0.9;
+
+            const frameTitles = document.querySelectorAll('.frame-title');
+            const frameContainer = document.querySelector('.frame-container');
+            const videoContainer = document.querySelector('.video-container');
+
+            const frameTop = frameContainer.getBoundingClientRect().top;
+            const videoTop = videoContainer.getBoundingClientRect().top;
+
+            frameTitles.forEach(title => {
+                const titleTop = title.getBoundingClientRect().top;
+                if (titleTop < triggerBottom) {
+                    title.classList.add('show'); // 確保這裡加上 .show
+                }
+            });
+
+            if (frameTop < triggerBottom) {
+                frameContainer.classList.add('show'); // 確保這裡加上 .show
+            }
+            if (videoTop < triggerBottom) {
+                videoContainer.classList.add('show'); // 確保這裡加上 .show
+            }
+        });
+    </script>
 </body>
 </html>
