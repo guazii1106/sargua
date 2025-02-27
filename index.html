@@ -234,32 +234,45 @@
     </footer>
 
     <script>
-        document.getElementById('current-year').textContent = new Date().getFullYear();
+    document.getElementById('current-year').textContent = new Date().getFullYear();
 
-        window.addEventListener('scroll', function() {
-            const triggerBottom = window.innerHeight * 0.9;
+    // 獲取所有圖片
+    const images = document.querySelectorAll('img');
+    let imagesLoaded = 0;
 
-            const frameTitles = document.querySelectorAll('.frame-title');
-            const frameContainer = document.querySelector('.frame-container');
-            const videoContainer = document.querySelector('.video-container');
+    // 監聽每張圖片的 load 事件
+    images.forEach(image => {
+      image.addEventListener('load', () => {
+        imagesLoaded++;
+        // 當所有圖片都載入完成時
+        if (imagesLoaded === images.length) {
+          // 執行顯示動畫的程式碼
+          showAnimations();
+        }
+      });
 
-            const frameTop = frameContainer.getBoundingClientRect().top;
-            const videoTop = videoContainer.getBoundingClientRect().top;
+      // 處理圖片已經載入完成的情況 (例如，圖片來自快取)
+      if (image.complete) {
+          imagesLoaded++;
+          if (imagesLoaded === images.length) {
+              showAnimations();
+          }
+      }
+    });
 
-            frameTitles.forEach(title => {
-                const titleTop = title.getBoundingClientRect().top;
-                if (titleTop < triggerBottom) {
-                    title.classList.add('show'); // 確保這裡加上 .show
-                }
-            });
+    // 顯示動畫的函數
+    function showAnimations() {
+        const frameTitles = document.querySelectorAll('.frame-title');
+        const frameContainer = document.querySelector('.frame-container');
+        const videoContainer = document.querySelector('.video-container');
 
-            if (frameTop < triggerBottom) {
-                frameContainer.classList.add('show'); // 確保這裡加上 .show
-            }
-            if (videoTop < triggerBottom) {
-                videoContainer.classList.add('show'); // 確保這裡加上 .show
-            }
+        frameTitles.forEach(title => {
+            title.classList.add('show');
         });
+
+        frameContainer.classList.add('show');
+        videoContainer.classList.add('show');
+    }
     </script>
 </body>
 </html>
