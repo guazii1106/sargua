@@ -150,6 +150,22 @@
           /* 移除 footer 的 opacity 和 transition，改用 .fade-in */
         }
 
+        .loading-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--frame-bg);
+            padding: 10px 20px;
+            border-radius: 15px;
+            z-index: 1000;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
 
         @media (max-width: 768px) {
             .frame-container {
@@ -179,8 +195,9 @@
         <h1>傻瓜工作室</h1>
         <h2>臺灣工作室，製作影片、遊戲、樂趣:)</h2>
         <div class="button-container">
-            <button onclick="window.location.href='https://www.youtube.com/@sarguastudiotaiwan'">youtube</button>
-            <button onclick="window.location.href='https://x.com/sarguastudio'">x</button>
+            <button onclick="window.location.href='https://www.youtube.com/@sarguastudiotaiwan'" style="background: linear-gradient(45deg, #FF0000, #FF7F50);">Youtube</button>
+            <button onclick="window.location.href='https://x.com/sarguastudio'" style="background: linear-gradient(45deg, #e8e8e8, #d3d3d3);">X</button>
+            <button onclick="window.open('https://sarguastudio.blogspot.com/', '_blank')" style="background: linear-gradient(45deg, #40e9ff, #1e90ff); color: #000;">Blog</button>
         </div>
     </div>
 
@@ -245,8 +262,12 @@
 
     <!-- 版權宣告 -->
     <footer class="fade-in">
-        &copy; sarguastudio <span id="founding-year"></span> - <span id="current-year"></span>
+        &copy;sarguastudio<span id="founding-year"></span> - <span id="current-year"></span>
     </footer>
+
+    <div id="loadingIndicator" class="loading-indicator">
+        Loading...
+    </div>
 
 <script>
     document.getElementById('current-year').textContent = new Date().getFullYear();
@@ -287,20 +308,44 @@
     }
 
     function showAnimations() {
-      const animatedElements = document.querySelectorAll('.fade-in');
+        const animatedElements = document.querySelectorAll('.fade-in');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        
+        let delay = 0;
+        const delayIncrement = 300;
+        let visibleElements = [];
 
-      let delay = 0;
-      const delayIncrement = 300; // 增加延遲，使淡入效果更明顯
+        // 檢查元素是否在視窗中可見
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.bottom >= 0
+            );
+        }
 
-      animatedElements.forEach((element, index) => {
-        setTimeout(() => {
-          element.classList.add('show');
-        }, delay + index * delayIncrement);
-      });
+        // 處理滾動事件
+        function handleScroll() {
+            animatedElements.forEach((element) => {
+                if (!visibleElements.includes(element) && isElementInViewport(element)) {
+                    element.classList.add('show');
+                    visibleElements.push(element);
+                }
+            });
+
+            // 如果所有元素都已顯示，隱藏 loading 提示
+            if (visibleElements.length === animatedElements.length) {
+                loadingIndicator.classList.add('hidden');
+                window.removeEventListener('scroll', handleScroll);
+            }
+        }
+
+        // 初始檢查
+        handleScroll();
+        
+        // 添加滾動事件監聽
+        window.addEventListener('scroll', handleScroll);
     }
-
-
-
 
     // 主要流程：獲取年份 -> 等待圖片載入 -> 執行動畫
     fetchFoundingYear().then(() => {
