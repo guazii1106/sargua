@@ -205,7 +205,7 @@
     <h1 class="frame-title fade-in">成員</h1>
     <div class="frame-container" id="original-members">
         <div class="frame fade-in">
-            <img src="https://raw.githubusercontent.com/guazii1106/sargua/main/guazii1.jpg" alt="圖片 1" class="frame-image" loading="lazy">
+            <img src="img/guazii1.jpg" alt="圖片 1" class="frame-image" loading="lazy">
             <div class="frame-content">
                 <h2>我是真瓜子guazii</h2>
                 <p class="frame-text">位置岌岌可危的團長，主要負責技術、剪輯、網站架設，不擅長表演的社恐</p>
@@ -213,14 +213,14 @@
             </div>
         </div>
         <div class="frame fade-in">
-            <img src="https://raw.githubusercontent.com/guazii1106/sargua/main/sarler1.jpg" alt="圖片 2" class="frame-image" loading="lazy">
+            <img src="img/sarler1.jpg" alt="圖片 2" class="frame-image" loading="lazy">
             <div class="frame-content">
                 <h2>傻樂sarler</h2>
                 <p class="frame-text">愛玩minecraft、貓咪大戰爭，主要負責拍片、娛樂效果、遊戲美術，因為時間問題，在團隊不算太活躍</p>
             </div>
         </div>
         <div class="frame fade-in">
-            <img src="https://raw.githubusercontent.com/guazii1106/sargua/main/xiaoyou1.jpg" alt="圖片 3" class="frame-image" loading="lazy">
+            <img src="img/xiaoyou1.jpg" alt="圖片 3" class="frame-image" loading="lazy">
             <div class="frame-content">
                 <h2>魈幽</h2>
                 <p class="frame-text">愛畫畫、唱歌、玩原神的團員，負責錄音、音樂、拍片，繪圖</p>
@@ -237,7 +237,7 @@
     <h1 class="frame-title fade-in">合作夥伴</h1>
     <div class="frame-container" id="new-members">
         <div class="frame fade-in">
-            <img src="https://raw.githubusercontent.com/guazii1106/sargua/refs/heads/main/se80821.jpg" alt="高哥熱蛋" class="frame-image" loading="lazy">
+            <img src="img/se80821.jpg" alt="高哥熱蛋" class="frame-image" loading="lazy">
             <div class="frame-content">
                 <h2>高哥熱蛋(se8082)</h2>
                 <p class="frame-text">從roblox到蛋仔派對，從娛樂效果到技術操作，瓜子拍片時的最佳夥伴</p>
@@ -311,40 +311,14 @@
         const animatedElements = document.querySelectorAll('.fade-in');
         const loadingIndicator = document.getElementById('loadingIndicator');
         
-        let delay = 0;
-        const delayIncrement = 300;
-        let visibleElements = [];
-
-        // 檢查元素是否在視窗中可見
-        function isElementInViewport(el) {
-            const rect = el.getBoundingClientRect();
-            return (
-                rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.bottom >= 0
-            );
-        }
-
-        // 處理滾動事件
-        function handleScroll() {
+        // 延遲 1 秒後一次性顯示所有元素
+        setTimeout(() => {
             animatedElements.forEach((element) => {
-                if (!visibleElements.includes(element) && isElementInViewport(element)) {
-                    element.classList.add('show');
-                    visibleElements.push(element);
-                }
+                element.classList.add('show');
             });
-
-            // 如果所有元素都已顯示，隱藏 loading 提示
-            if (visibleElements.length === animatedElements.length) {
-                loadingIndicator.classList.add('hidden');
-                window.removeEventListener('scroll', handleScroll);
-            }
-        }
-
-        // 初始檢查
-        handleScroll();
-        
-        // 添加滾動事件監聽
-        window.addEventListener('scroll', handleScroll);
+            // 隱藏 loading 提示
+            loadingIndicator.classList.add('hidden');
+        }, 1000);
     }
 
     // 主要流程：獲取年份 -> 等待圖片載入 -> 執行動畫
